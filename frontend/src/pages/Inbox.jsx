@@ -17,7 +17,9 @@ export default function Inbox({ mockHeaders, currentRole }) {
       if (filterChannel) queryParams.append('channel', filterChannel);
       if (filterSentiment) queryParams.append('sentiment', filterSentiment);
 
-      const res = await fetch(`http://localhost:5000/api/feedback?${queryParams.toString()}`, {
+      // 🔥 FIXED: Dynamically switches between the live Render API URL and local fallback routing
+      const apiBase = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000';
+      const res = await fetch(`${apiBase}/api/feedback?${queryParams.toString()}`, {
         headers: mockHeaders
       });
       const data = await res.json();
@@ -47,7 +49,9 @@ export default function Inbox({ mockHeaders, currentRole }) {
 
     try {
       setIsIngesting(true);
-      const res = await fetch('http://localhost:5000/api/feedback', {
+      // 🔥 FIXED: Dynamically reads the live production endpoint environment variable
+      const apiBase = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000';
+      const res = await fetch(`${apiBase}/api/feedback`, {
         method: 'POST',
         headers: mockHeaders,
         body: JSON.stringify({ content: contentInput, channel: channelSelect })
@@ -84,7 +88,9 @@ export default function Inbox({ mockHeaders, currentRole }) {
         { channel: 'Support ticket', content: 'Invoice billing confirmation emails keep landing in our corporate spam folder routing.' }
       ];
 
-      const res = await fetch('http://localhost:5000/api/feedback/bulk', {
+      // 🔥 FIXED: Dynamically maps the production API cluster path for CSV processing arrays
+      const apiBase = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000';
+      const res = await fetch(`${apiBase}/api/feedback/bulk`, {
         method: 'POST',
         headers: mockHeaders,
         body: JSON.stringify({ items: csvMockItems })
@@ -98,7 +104,7 @@ export default function Inbox({ mockHeaders, currentRole }) {
     }
   };
 
-    return (
+      return (
     <div className="flex-1 p-3 sm:p-5 md:p-8 overflow-y-auto max-h-screen bg-transparent w-full relative">
       
       {/* 🔔 FLOATING GLASSMORPHIC SUCCESS TOAST */}

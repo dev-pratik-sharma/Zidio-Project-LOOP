@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import StatCards from '../components/statCards';
+import StatCards from '../components/StatCards';
 
 export default function Dashboard({ mockHeaders }) {
   const [analytics, setAnalytics] = useState(null);
@@ -8,7 +8,10 @@ export default function Dashboard({ mockHeaders }) {
   const fetchDashboardData = async () => {
     try {
       setLoading(true);
-      const res = await fetch('http://localhost:5000/api/feedback/analytics', {
+      
+      // 🔥 FIXED: Dynamically switches between the live Render API URL and local fallback routing
+      const apiBase = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000';
+      const res = await fetch(`${apiBase}/api/feedback/analytics`, {
         headers: mockHeaders
       });
       const data = await res.json();
@@ -44,7 +47,7 @@ export default function Dashboard({ mockHeaders }) {
     { bgHex: '#fbbf24' }  // Cyber Amber
   ];
 
-  return (
+    return (
     <div className="flex-1 p-3 sm:p-5 md:p-8 overflow-y-auto max-h-screen bg-transparent w-full">
       {/* Header Panel - Adaptive fluid typography & left-aligned compact action button */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 mb-6 md:mb-8">
@@ -56,7 +59,7 @@ export default function Dashboard({ mockHeaders }) {
         </div>
         <button 
           onClick={fetchDashboardData}
-          className="w-fit sm:w-auto bg-slate-900/80 hover:bg-slate-800 text-slate-200 border border-slate-800/60 hover:border-slate-700 font-semibold px-4 py-2 sm:px-5 sm:py-2.5 rounded-lg sm:rounded-xl text-[10px] sm:text-xs transition-all flex items-center justify-center space-x-2 backdrop-blur-md shadow-md"
+          className="w-fit sm:w-auto bg-slate-900/80 hover:bg-slate-800 text-slate-200 border border-slate-800/60 hover:border-slate-700 font-semibold px-4 py-2 sm:px-5 sm:py-2.5 rounded-lg sm:rounded-xl text-[10px] sm:text-xs transition-all flex items-center justify-center space-x-2 backdrop-blur-md shadow-sm"
         >
           <span>🔄</span> <span>Re-fetch Telemetry</span>
         </button>

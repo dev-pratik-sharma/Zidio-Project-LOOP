@@ -7,7 +7,10 @@ export default function Reports({ mockHeaders }) {
   const triggerExecutiveReportCompilation = async () => {
     try {
       setLoading(true);
-      const res = await fetch('http://localhost:5000/api/feedback/report', {
+      
+      // 🔥 FIXED: Dynamically switches between the live Render API URL and local fallback routing
+      const apiBase = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000';
+      const res = await fetch(`${apiBase}/api/feedback/report`, {
         headers: mockHeaders
       });
       const data = await res.json();
@@ -19,7 +22,7 @@ export default function Reports({ mockHeaders }) {
     }
   };
 
-  return (
+    return (
     <div className="flex-1 p-3 sm:p-5 md:p-8 overflow-y-auto max-h-screen bg-transparent w-full">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 mb-6 md:mb-8 print:hidden">
         <div>

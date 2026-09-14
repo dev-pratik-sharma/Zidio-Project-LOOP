@@ -22,7 +22,9 @@ export default function AskLoop({ mockHeaders }) {
     setChatLog(prev => [...prev, { sender: 'user', text: userQuestion, citations: [] }]);
 
     try {
-      const res = await fetch('http://localhost:5000/api/feedback/ask', {
+      // 🔥 FIXED: Dynamically switches between the live Render API URL and local fallback routing
+      const apiBase = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000';
+      const res = await fetch(`${apiBase}/api/feedback/ask`, {
         method: 'POST',
         headers: mockHeaders,
         body: JSON.stringify({ question: userQuestion })
@@ -41,7 +43,7 @@ export default function AskLoop({ mockHeaders }) {
     }
   };
 
-  return (
+    return (
     <div className="flex-1 p-3 sm:p-5 md:p-8 flex flex-col justify-between max-h-screen bg-transparent w-full">
       <div className="mb-2">
         <h1 className="text-xl sm:text-2xl md:text-3xl font-black text-white tracking-tight">LOOP Intelligence Core</h1>
