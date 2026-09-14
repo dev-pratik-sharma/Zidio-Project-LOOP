@@ -1,0 +1,6 @@
+# Master root ignores to block nested node allocations
+node_modules/
+dist/
+.env
+.env.local
+*.log
