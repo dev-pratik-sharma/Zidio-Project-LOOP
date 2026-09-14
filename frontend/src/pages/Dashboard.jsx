@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-// 🌟 FORCE EXPLICIT UPPERCASE HOOK TO BYPASS CASE-SENSITIVE BUILD ERRORS
-import StatCards from '../components/StatCards';
+import StatCards from '../components/statCards';
 
 export default function Dashboard({ mockHeaders }) {
   const [analytics, setAnalytics] = useState(null);
