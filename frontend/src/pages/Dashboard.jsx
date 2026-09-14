@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import StatCards from '../components/statCards';
+// 🌟 FORCE EXPLICIT UPPERCASE HOOK TO BYPASS CASE-SENSITIVE BUILD ERRORS
+import StatCards from '../components/StatCards';
 
 export default function Dashboard({ mockHeaders }) {
   const [analytics, setAnalytics] = useState(null);
@@ -9,7 +10,7 @@ export default function Dashboard({ mockHeaders }) {
     try {
       setLoading(true);
       
-      // 🔥 FIXED: Dynamically switches between the live Render API URL and local fallback routing
+      // Dynamically switches between the live Render API URL and local fallback routing
       const apiBase = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000';
       const res = await fetch(`${apiBase}/api/feedback/analytics`, {
         headers: mockHeaders
